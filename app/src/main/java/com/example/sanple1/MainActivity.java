@@ -1,28 +1,18 @@
 package com.example.sanple1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Environment;
-import android.os.Handler;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
 
-import java.io.BufferedWriter;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Timer;
@@ -30,13 +20,13 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements SensorEventListener  {
-
     private SensorManager sensorManager;
     private TextView textView, textInfo;
     private Sensor accel;
 
     DecimalFormat format = new DecimalFormat("#.#");
     private double sTime;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +40,28 @@ public class MainActivity extends AppCompatActivity
         // Get an instance of the TextView
         textView = findViewById(R.id.text_view);
 
+        // Intent を取得する
+        Intent intent = getIntent();
+
+        // キーを元にデータを取得する(データがない場合、第２引数の 0 が返る)
+        count = intent.getIntExtra("Count", 0);
+
         Timer timer = new Timer(false);
         TimerTask task = new TimerTask() {
-
             @Override
             public void run() {
-                //画面遷移
-                Intent intent = new Intent(MainActivity.this.getApplication(), EndActivity.class);
-                MainActivity.this.startActivity(intent);
+                if (count>=10){
+                    //画面遷移
+                    Intent intent = new Intent(MainActivity.this.getApplication(), EndActivity.class);
+                    MainActivity.this.startActivity(intent);
+                }else{
+                    count ++;
+                    //画面遷移
+                    Intent intent = new Intent(MainActivity.this.getApplication(), ExplanationActivity.class);
+                    //カウント渡し
+                    intent.putExtra("Count", count);
+                    startActivity(intent);
+                }
                 timer.cancel();
             }
         };
@@ -95,7 +99,6 @@ public class MainActivity extends AppCompatActivity
     public void onSensorChanged(SensorEvent event) {
         float sensorX, sensorY, sensorZ;
         double ang_acc_x, ang_acc_y;
-        int count = 0;
 
         float[] gravity = new float[3];
 
@@ -130,7 +133,7 @@ public class MainActivity extends AppCompatActivity
             textView.setText(strTmp);
 
 
-            String filename = "data_ks.csv";
+            String filename = "data_ks"+Integer.toString(count)+".csv";
             FileOutputStream output;
 
             try {
@@ -149,7 +152,7 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
 
-            String file_name = "data_ku.csv";
+            String file_name = "data_ku"+Integer.toString(count)+".csv";
             FileOutputStream outputs;
 
             try {
@@ -166,9 +169,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 }
