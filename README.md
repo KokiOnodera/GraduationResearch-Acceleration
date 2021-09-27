@@ -1,0 +1,2 @@
+# GraduationResearch-Acceleration
+卒業研究の加速度に関するソースコードを置いておくリポジトリです
