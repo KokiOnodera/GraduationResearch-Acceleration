@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity
         // Get an instance of the SensorManager
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        textInfo = findViewById(R.id.text_info);
+        //textInfo = findViewById(R.id.text_info);
         // Get an instance of the TextView
-        textView = findViewById(R.id.text_view);
+        //textView = findViewById(R.id.text_view);
 
         // Intent を取得する
         Intent intent = getIntent();
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                     + "角速度センサー\n"
                     + " X: " + ang_acc_x + "\n"
                     + " Y: " + ang_acc_y;
-            textView.setText(strTmp);
+            //textView.setText(strTmp);
 
 
             String filename = "data_ks"+Integer.toString(count)+".csv";
