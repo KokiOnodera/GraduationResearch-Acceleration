@@ -7,7 +7,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,18 +49,12 @@ public class MainActivity extends AppCompatActivity
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if (count>=10){
-                    //画面遷移
-                    Intent intent = new Intent(MainActivity.this.getApplication(), EndActivity.class);
-                    MainActivity.this.startActivity(intent);
-                }else{
-                    count ++;
-                    //画面遷移
-                    Intent intent = new Intent(MainActivity.this.getApplication(), ExplanationActivity.class);
-                    //カウント渡し
-                    intent.putExtra("Count", count);
-                    startActivity(intent);
-                }
+                //画面遷移(画面タップイベントに遷移)
+                //Intent intent = new Intent(MainActivity.this.getApplication(), ExplanationActivity.class);
+                Intent intent = new Intent(MainActivity.this.getApplication(), TapActivity.class);
+                //カウント渡し
+                intent.putExtra("Count", count);
+                startActivity(intent);
                 timer.cancel();
             }
         };
@@ -69,7 +62,6 @@ public class MainActivity extends AppCompatActivity
         timer.schedule(task, 5000);
 
         sTime=System.currentTimeMillis();
-
     }
 
     @Override
@@ -105,7 +97,6 @@ public class MainActivity extends AppCompatActivity
 
         final float alpha = 0.6f;
 
-
         format.setMinimumFractionDigits(1);
         format.setMaximumFractionDigits(1);
         //keisann
@@ -131,7 +122,6 @@ public class MainActivity extends AppCompatActivity
                     + " X: " + ang_acc_x + "\n"
                     + " Y: " + ang_acc_y;
             //textView.setText(strTmp);
-
 
             String filename = "data_ks"+Integer.toString(count)+".csv";
             FileOutputStream output;

@@ -34,45 +34,11 @@ public class VibeActivity extends AppCompatActivity {
         // Intent を取得する
         Intent intent = getIntent();
         count = intent.getIntExtra("Count",0);
-        FileOutputStream output;
-        try {
-            String filename = "data_ks"+Integer.toString(count)+".csv";
-            //ファイル作成
-            output = openFileOutput(filename, Context.MODE_PRIVATE);
-            output.write("Time[s]".getBytes());
-            output.write(",".getBytes());
-            output.write("Signal X[V]".getBytes());
-            output.write(",".getBytes());
-            output.write("Signal Y[V]".getBytes());
-            output.write(",".getBytes());
-            output.write("Signal Z[V]".getBytes());
-            output.write("\n".getBytes());
-            output.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        FileOutputStream outputs;
-        try {
-            String file_name = "data_ku"+Integer.toString(count)+".csv";
-            //ファイル作成
-            outputs = openFileOutput(file_name, Context.MODE_PRIVATE);
-            outputs.write("Time[s]".getBytes());
-            outputs.write(",".getBytes());
-            outputs.write("Signal X[V]".getBytes());
-            outputs.write(",".getBytes());
-            outputs.write("Signal Y[V]".getBytes());
-            outputs.write("\n".getBytes());
-            outputs.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         /**
         * 5秒後にバイブレーション
         * */
         vibration = new Runnable() {
-            //@RequiresApi(api = Build.VERSION_CODES.O)
             public void run() {
                 //1000ms バイブを鳴らす
                 Vibrator vibratorManager = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
